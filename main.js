@@ -18,7 +18,7 @@ var Plate = function (name, description, price, ingredients) {
     this.ingredients = ingredients;
 }
 var Order = function (plates) {
-    this.plates = plates;
+    this.order = plates;
 }
 var Menu = function (plates) {
     this.plates = plates;
@@ -53,7 +53,8 @@ Plate.prototype.toString = function () {
 }
 
 Plate.prototype.isVegan = function () {
-    return this.foodItem.vegan;
+    return and(pluck(this.ingredients, 'isVegan'));
+
 }
 
 Plate.prototype.isGlutenFree = function () {
@@ -61,8 +62,8 @@ Plate.prototype.isGlutenFree = function () {
 }
 
 Plate.prototype.isCitrusFree = function () {
-    console.log("CITRUS? : " + this.foodItem.citrusFree);
-    return this.foodItem.citrusFree;
+    return and(pluck(this.ingredients, 'isCitrusFree'));
+
 }
 
 Order.prototype.toString = function () {
@@ -74,7 +75,7 @@ Menu.prototype.toString = function () {
     //    var output = '\nMenu : ' + this.plates.map;
     this.plate.map(
         function (plate) {
-            return plate.toString();
+            return this.plate.toString();
         });
 }
 Restaurant.prototype.toString = function () {
@@ -96,13 +97,14 @@ var sriracha = new FoodItem('Sriracha', '900', true, false, true);
 var apple = new FoodItem('Apple', '150', true, true, false);
 var ribeye = new FoodItem('Ribeye', '1500', false, true, true);
 
-var bigBurrito = new Plate('Burrito', 'Delicious', '3.50', [tortilla, lettuce, chicken, sriracha]);
+var bigBurrito = new Plate('Burrito', 'Delicious', '3.50', ['tortilla', 'lettuce', 'chicken', 'sriracha']);
 //var guacPlate = new Plate('Guac', 'Delicious', '5.50', ['Avocados', 'Salsa', 'Lime', 'Cilantro']);
 //var margarita = new Plate('Ballin Blue Marg', 'Delicious', '.50', ['Tequila', 'Lime Juice', 'Margarita Mix', 'TripleSec']);
 
 var rioMenu = new Menu(bigBurrito);
 var rioGrande = new Restaurant(rioMenu);
 console.log(rioGrande.toString());
+console.log(rioGrande);
 
 
 
